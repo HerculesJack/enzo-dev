@@ -6,7 +6,7 @@
 #
 # AUTHOR:      He Jia (hejia@princeton.edu)
 #
-# DATE:        2020-08-31
+# DATE:        2020-10-10
 #
 #=======================================================================
 
@@ -23,7 +23,7 @@ MACH_VALID = 1
 #               ./configure 
 #               cd src/enzo
 #               make machine-tigercpu
-#               gmake opt-high papi-no #grackle-yes
+#               gmake opt-high papi-no grackle-yes
 #               make show-config
 #               make
 #               cd ../inits/
@@ -41,7 +41,7 @@ LOCAL_HDF5_INSTALL = ${HDF5DIR}
 LOCAL_HYPRE_INSTALL = 
 LOCAL_PAPI_INSTALL = 
 LOCAL_PYTHON_INSTALL = #${CONDA_PREFIX}
-LOCAL_GRACKLE_INSTALL = #${HOME}/grackle-build
+LOCAL_GRACKLE_INSTALL = ${HOME}/grackle-build
 
 #-----------------------------------------------------------------------
 # Compiler settings
@@ -117,7 +117,7 @@ LOCAL_INCLUDES_HDF5   = -I$(LOCAL_HDF5_INSTALL)/include
 LOCAL_INCLUDES_HYPRE  = 
 LOCAL_INCLUDES_PAPI   = 
 LOCAL_INCLUDES_PYTHON = 
-LOCAL_INCLUDES_GRACKLE = #-I$(LOCAL_GRACKLE_INSTALL)/include
+LOCAL_INCLUDES_GRACKLE = -I$(LOCAL_GRACKLE_INSTALL)/include
 
 MACH_INCLUDES         = $(LOCAL_INCLUDES_HDF5)
 MACH_INCLUDES_MPI     = $(LOCAL_INCLUDES_MPI)
@@ -136,7 +136,7 @@ LOCAL_LIBS_HDF5   = -L$(LOCAL_HDF5_INSTALL)/lib64 -lhdf5 -lz
 LOCAL_LIBS_HYPRE  = 
 LOCAL_LIBS_PAPI   = 
 LOCAL_LIBS_PYTHON  = 
-LOCAL_LIBS_GRACKLE = #-L$(LOCAL_GRACKLE_INSTALL)/lib -lgrackle
+LOCAL_LIBS_GRACKLE = -L$(LOCAL_GRACKLE_INSTALL)/lib -lgrackle
 
 MACH_LIBS         = $(LOCAL_LIBS_HDF5) $(LOCAL_LIBS_MACH)
 MACH_LIBS_MPI     = $(LOCAL_LIBS_MPI)
