@@ -359,8 +359,8 @@ c    sn_param - fraction of stellar rest mass that goes to feedback
 c    m_eject  - fraction of stellar mass ejected back to gas
 c    yield    - fraction of stellar mass that is converted to metals
 c    FLEFTSN - the fraction of *ejecta* mass left in the cell where SNe go off
-c    consv_p - correct the momentum so that it can be conserved 
-c                  before/after the SN explosions (default:on)
+c    consv_p - (NOT USED) correct the momentum so that it can be conserved 
+c                  before/after the SN explosions (default:off)
 c    consv_e - conserve the total energy (thermal+kinetic) before/after
 c                  the SN explosions. This is to mimic shock-heating
 c                  when two flows collide at the time of injection (def:on)
