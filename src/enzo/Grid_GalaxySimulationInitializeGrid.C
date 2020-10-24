@@ -30,7 +30,7 @@
 
 int GetUnits(float *DensityUnits, float *LengthUnits,
 	     float *TemperatureUnits, float *TimeUnits,
-	     float *VelocityUnits, FLOAT Time);
+	     float *VelocityUnits, double *MassUnits, FLOAT Time);
 
 int CosmologyGetUnits(float *DensityUnits, float *LengthUnits,
 		      float *TemperatureUnits, float *TimeUnits,
@@ -178,11 +178,11 @@ int grid::GalaxySimulationInitializeGrid(FLOAT DiskRadius,
    BoxLength = ComovingBoxSize*ExpansionFactor/HubbleConstantNow;  // in Mpc
  } else if( PointSourceGravity ){
    ENZO_FAIL("ERROR IN GALAXY SIM GRID INITIALIZE: non-cosmology units not supported for point source gravity");
- } else {
-   if (GetUnits(&DensityUnits, &LengthUnits, &TemperatureUnits,
-                &TimeUnits, &VelocityUnits, Time) == FAIL) {
-      ENZO_FAIL("Error in GetUnits.");
-  } // end get units error if  
+// } else {
+//   if (GetUnits(&DensityUnits, &LengthUnits, &TemperatureUnits,
+//                &TimeUnits, &VelocityUnits, Time) == FAIL) {
+//      ENZO_FAIL("Error in GetUnits.");
+//  } // end get units error if  
  } // end units if/else
 
 	/* correct background density if it's not given in code units */
@@ -459,7 +459,7 @@ float gasvel(FLOAT radius, float DiskDensity, FLOAT ExpansionFactor, float Galax
   double MassUnits=1;
 
   if (GetUnits(&DensityUnits, &LengthUnits, &TemperatureUnits,
-	       &TimeUnits, &VelocityUnits, Time) == FAIL) {
+	       &TimeUnits, &VelocityUnits, &MassUnits, Time) == FAIL) {
     ENZO_FAIL("Error in GetUnits.");
   }
 
