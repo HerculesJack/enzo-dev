@@ -68,6 +68,15 @@ SPEXTERN float StarFeedbackKineticFraction;
 SPEXTERN float StarMakerExplosionDelayTime;
 SPEXTERN int StarMakerUseJeansMass;
 
+SPEXTERN float StarFeedbackFLeftover;
+SPEXTERN float StarFeedbackMaximumShockTemperature;
+SPEXTERN int StarFeedbackConserveMomentum;
+SPEXTERN int StarFeedbackConserveEnergy;
+SPEXTERN int StarMakerVerbose;
+SPEXTERN int StarFeedbackVerbose;
+SPEXTERN int StarFeedbackLoadingType;
+SPEXTERN float StarFeedbackVelocityMax;
+
 SPEXTERN float PopIIIStarMass;
 SPEXTERN int   PopIIIInitialMassFunction;
 SPEXTERN int   PopIIIInitialMassFunctionSeed;

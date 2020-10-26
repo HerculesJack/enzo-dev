@@ -607,6 +607,16 @@ int SetDefaultGlobalValues(TopGridData &MetaData)
   WriteGhostZones                  = FALSE;
   OutputParticleTypeGrouping       = FALSE;
 
+  // added by TK
+  StarFeedbackFLeftover            = 0.0769231;    // mass fraction left over in the SN cell (f=(1-f)*4/48)
+  StarFeedbackMaximumShockTemperature = 1e9;       // maximum shock tempereature
+  StarFeedbackConserveMomentum     = FALSE;        // relevent only for star_feedback10
+  StarFeedbackConserveEnergy       = TRUE;         // relevent only for star_feedback10
+  StarMakerVerbose                 = FALSE;
+  StarFeedbackVerbose              = FALSE;
+  StarFeedbackLoadingType          = 0;
+  StarFeedbackVelocityMax          = 1e4;   // kms
+
   IsotropicConduction = FALSE;
   AnisotropicConduction = FALSE;
   IsotropicConductionSpitzerFraction = 0.0;
