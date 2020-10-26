@@ -36,6 +36,7 @@
 #include "CosmologyParameters.h"
 #include "phys_constants.h"
 #include "ActiveParticle.h"
+#include "StarParticleData.h"
 
 /* This variable is declared here and only used in Grid_ReadGrid. */
 
@@ -1048,6 +1049,24 @@ int ReadParameterFile(FILE *fptr, TopGridData &MetaData, float *Initialdt)
 		  &PopIIISupernovaExplosions);
     ret += sscanf(line, "PopIIIOutputOnFeedback = %"ISYM,
 		  &PopIIIOutputOnFeedback);
+
+    //  added by TK
+    ret += sscanf(line, "StarFeedbackFLeftover = %"FSYM, 
+                  &StarFeedbackFLeftover);
+    ret += sscanf(line, "StarFeedbackMaximumShockTemperature = %"FSYM, 
+                  &StarFeedbackMaximumShockTemperature);
+    ret += sscanf(line, "StarFeedbackConserveMomentum = %"ISYM, 
+                  &StarFeedbackConserveMomentum);
+    ret += sscanf(line, "StarFeedbackConserveEnergy = %"ISYM, 
+                  &StarFeedbackConserveEnergy);
+    ret += sscanf(line, "StarMakerVerbose = %"ISYM, 
+                  &StarMakerVerbose);
+    ret += sscanf(line, "StarFeedbackVerbose = %"ISYM, 
+                  &StarFeedbackVerbose);
+    ret += sscanf(line, "StarFeedbackLoadingType = %"ISYM, 
+                  &StarFeedbackLoadingType);
+    ret += sscanf(line, "StarFeedbackVelocityMax = %"FSYM, 
+                  &StarFeedbackVelocityMax);
 
     ret += sscanf(line, "MBHAccretion = %"ISYM, &MBHAccretion);
     ret += sscanf(line, "MBHAccretionRadius = %"FSYM, &MBHAccretionRadius);

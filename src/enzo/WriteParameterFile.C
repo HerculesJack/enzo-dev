@@ -1024,6 +1024,24 @@ int WriteParameterFile(FILE *fptr, TopGridData &MetaData, char *name = NULL)
   fprintf(fptr, "PopIIIOutputOnFeedback                = %"ISYM"\n\n",
           PopIIIOutputOnFeedback);
 
+  // added by TK
+  fprintf(fptr, "StarFeedbackFLeftover                 = %"GSYM"\n",
+          StarFeedbackFLeftover);
+  fprintf(fptr, "StarFeedbackMaximumShockTemperature   = %"GSYM"\n",
+          StarFeedbackMaximumShockTemperature);
+  fprintf(fptr, "StarFeedbackConserveEnergy            = %"ISYM"\n",
+          StarFeedbackConserveEnergy);
+  fprintf(fptr, "StarFeedbackConserveMomentum          = %"ISYM"\n",
+          StarFeedbackConserveMomentum);
+  fprintf(fptr, "StarMakerVerbose                      = %"ISYM"\n",
+          StarMakerVerbose);
+  fprintf(fptr, "StarFeedbackVerbose                   = %"ISYM"\n",
+          StarFeedbackVerbose);
+  fprintf(fptr, "StarFeedbackLoadingType               = %"ISYM"\n",
+          StarFeedbackLoadingType);
+  fprintf(fptr, "StarFeedbackVelocityMax               = %"GSYM"\n",
+          StarFeedbackVelocityMax);
+
   fprintf(fptr, "MBHAccretion                          = %"ISYM"\n", MBHAccretion);
   fprintf(fptr, "MBHAccretionRadius                    = %"GSYM"\n", MBHAccretionRadius);
   fprintf(fptr, "MBHAccretingMassRatio                 = %"GSYM"\n", MBHAccretingMassRatio);
