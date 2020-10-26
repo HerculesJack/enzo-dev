@@ -385,10 +385,27 @@ int grid::GalaxySimulationInitializeGrid(FLOAT DiskRadius,
 	/* Set density. */
 
 	BaryonField[0][n] = density;
-	
-	if (StarMakerTypeIaSNe)
-	  for (i = 0; i < size; i++)
-	    BaryonField[MetalIaNum][i] = 1.0e-10;
+
+	int DensNum=0;
+	if (MultiSpecies){
+	  BaryonField[HINum   ][n] = BaryonField[DensNum][n]*1.0*0.76;
+	  BaryonField[HIINum  ][n] = BaryonField[DensNum][n]*0.0;
+	  BaryonField[HeINum  ][n] = BaryonField[DensNum][n]*1.0*(1-0.76);
+	  BaryonField[HeIINum ][n] = BaryonField[DensNum][n]*0.0*(1-0.76);
+	  BaryonField[HeIIINum][n] = BaryonField[DensNum][n]*0.0*(1-0.76);
+	  if(MultiSpecies>1){
+	    BaryonField[HMNum  ][n] = BaryonField[DensNum][n]*0.0;
+	    BaryonField[H2INum ][n] = BaryonField[DensNum][n]*0.0;
+	    BaryonField[H2IINum][n] = BaryonField[DensNum][n]*0.0;
+	  }
+	}
+
+	if (UseMetallicityField){
+	  BaryonField[MetalNum][n] = density*0.02*0.1; // 0.1 Zsun
+	}
+	if (StarMakerTypeIaSNe){
+	  BaryonField[MetalIaNum][n] = 1.0e-10;
+	}
 
 	/* Set Velocities. */
 
