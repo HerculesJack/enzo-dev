@@ -7,16 +7,17 @@ c=======================================================================
 c////////////////////////  SUBROUTINE STAR_MAKER \\\\\\\\\\\\\\\\\\\\\\\
 c
       subroutine star_maker11(nx, ny, nz,
-     &                      d, dm, temp, u, v, w, cooltime,
-     &                      dt, r, metal, zfield1, zfield2,
-     &                      dx, t, z, procnum, 
-     &                      d1, x1, v1, t1,
-     &                      nmax, xstart, ystart, zstart, ibuff, 
-     &                      imetal, imethod, mintdyn,
-     &                      odthresh, masseff, smthresh, level, np, 
-     &                      xp, yp, zp, up, vp, wp,
-     &                      mp, tdp, tcp, metalf,
-     &                      imetalSNIa, metalSNIa, metalfSNIa, mp0)
+     &                        d, dm, temp, u, v, w, cooltime,
+     &                        dt, r, metal, zfield1, zfield2,
+     &                        dx, t, z, procnum,
+     &                        d1, x1, v1, t1,
+     &                        nmax, xstart, ystart, zstart, ibuff,
+     &                        imetal, imethod, mintdyn,
+     &                        odthresh, masseff, smthresh, level, np,
+     &                        xp, yp, zp, up, vp, wp,
+     &                        mp, tdp, tcp, metalf,
+     &                        imetalSNIa, metalSNIa, metalfSNIa, mp0,
+     &                        verbose_mk)
 
 c
 c  CREATES GALAXY PARTICLES
@@ -39,6 +40,8 @@ c    added metalSNIa & metalfSNIa; included feedback from SN Ia/PN
 c    (original changes by M. Ryan Joung)
 c  modified2: 27 Sept 2013 by Taysun Kimm
 c    added creation mass for more accurate feedback
+c  modified3: 7 Nov 2020 by He Jia
+c    removed Jeans criterion, added verbose mode
 c
 c  INPUTS:
 c
@@ -64,6 +67,7 @@ c    mintdyn  - minimum dynamical time, in years
 c    level - current level of refinement
 c    procnum - processor number (for output)
 c    imetalSNIa - SN Ia metallicity flag (0 or 1 - none, 2 - yes)
+c    verbose_mk - output some details
 c
 c  OUTPUTS:
 c
@@ -88,7 +92,7 @@ c
 c  Arguments
 c
       INTG_PREC nx, ny, nz, ibuff, nmax, np, level, imetal, imethod
-      INTG_PREC procnum, imetalSNIa
+      INTG_PREC procnum, imetalSNIa, verbose_mk
       R_PREC    d(nx,ny,nz), dm(nx,ny,nz), temp(nx,ny,nz)
       R_PREC    u(nx,ny,nz), v(nx,ny,nz), w(nx,ny,nz)
       R_PREC    r(nx,ny,nz), cooltime(nx,ny,nz)
@@ -178,7 +182,7 @@ c
 c
 c  THIS IS COMMENTED OUT - NO JEANS MASS CRITERION IN THIS ALGORITHM!!!
 c  BWO, 13 NOV 02 (fix 3 dec 02)
-               if (bmass .lt. jeanmass) goto 10
+c              if (bmass .lt. jeanmass) goto 10
 c
 c              6) Check to see if star is above threshold (given
 c                 in units of M_solar)
@@ -262,7 +266,7 @@ c
 c               write(7+procnum,1000) level,bmass*starfraction,tcp(ii),
 c     &                           tdp(ii)*t1,d(i,j,k)*d1,z,metalf(ii)
 c
- 1000          format(i5,1x,6(1pe10.3,1x))
+1000           format(i5,1x,6(1pe10.3,1x))
 c
 c              Do not generate more star particles than available
 c
@@ -273,21 +277,21 @@ c
             enddo
          enddo
       enddo
- 20   continue
-c	
+20    continue
+
       if (ii .ge. nmax) then
          write(6,*) 'star_maker11: reached max new particle count'
          ERROR_MESSAGE
       endif
       np = ii
-c
-c      if (np .ne. 0) then
-c         write(6,*) 'Stars created: number,time,level: ', np, t, level
-c      endif
-cc
+
+      if (verbose_mk .eq. 1 .and. np .ne. 0) then
+         write(6,*) 'Stars created: number, time, level: ', np, t, level
+      endif
+
       return
       end
-c
+
 c=======================================================================
 c/////////////////////  SUBROUTINE STAR_FEEDBACK \\\\\\\\\\\\\\\\\\\\\\\
 c
@@ -301,7 +305,7 @@ c
      &                   metalf, imetalSNIa, metalSNIa, metalfSNIa,
      &                   type, justburn, mp0, FLEFTSN,
      &                   consv_p, consv_e, tmaxshock, 
-     &                   verbose_SN, iPN, loadtype, vlimit)
+     &                   verbose_fb, iPN, loadtype, vlimit)
 c
 c
 c  RELEASES "STAR" PARTICLE MOMENTUM, ENERGY, MASS AND METALS
@@ -365,7 +369,7 @@ c    consv_e - conserve the total energy (thermal+kinetic) before/after
 c                  the SN explosions. This is to mimic shock-heating
 c                  when two flows collide at the time of injection (def:on)
 c    tmaxshock - maximum shock temperature
-c    verbose_SN - output some details
+c    verbose_fb - output some details
 c    iPN        - Planetary Nebulae is actually done in star_feedback_pn_ia.F
 c                 This is only necessary to estimate the mass loss
 c    loadtype   - parameter determining the loading from the host cell of SN
@@ -398,7 +402,7 @@ c
       R_PREC    up(npart), vp(npart), wp(npart)
       R_PREC    mp(npart), tdp(npart), tcp(npart), metalf(npart)
       INTG_PREC imetalSNIa, type(npart), id0(npart), imode
-      INTG_PREC consv_p, consv_e, verbose_SN, loadtype, iPN
+      INTG_PREC consv_p, consv_e, verbose_fb, loadtype, iPN
       R_PREC    metalfSNIa(npart), mp0(npart)
       R_PREC    m_eject, sn_param, yield, FLEFTSN, tmaxshock, vlimit
 c
@@ -681,10 +685,10 @@ c     convert (sort of) metal density to metallicity of the SN progenitors
 c     no supernova? return
       if(sum(nsnIa+nsn2).eq.0) goto 300
 
-      if(verbose_SN.eq.1) print *,'NSN II, Ia =', sum(nsn2), sum(nsnIa)
+      if(verbose_fb.eq.1) print *,'NSN II, Ia =', sum(nsn2), sum(nsnIa)
 
 c     warning message
-      if(verbose_SN.eq.1)then
+      if(verbose_fb.eq.1)then
          if((nx-ibuff*2.le.2).or.
      &      (ny-ibuff*2.le.2).or.
      &      (nz-ibuff*2.le.2)) then
@@ -845,7 +849,7 @@ c   these cells will be updated later if they are near to other SNe
              Mach    = sigma_v/c_sound
              ! Mixture of forcing modes (solenoidal+compressive): b~0.4 (Federrath+10)
              f_load_n = min(exp(-0.5*log(1+(0.4*Mach)**2)),FLOADSN)
-             if(verbose_SN.eq.1) print *,'#### fload', sngl(f_load_n),
+             if(verbose_fb.eq.1) print *,'#### fload', sngl(f_load_n),
      &            sngl(sigma_v/1e5),sngl(c_sound/1e5)
           else 
              ! use a universal value (StarFeedbackFLeftover)
@@ -1396,7 +1400,7 @@ c         update mass (density), momentum, and energy !!!!
              tshock=eint_new/d(ic,jc,kc)*t2
              !print *,'TKSN',log10(tshock),eint_new,v(ic,jup,kc),jup,ny
              if(tshock>tmaxshock)then
-                if(verbose_SN.eq.1.and.tshock>4e8)then
+                if(verbose_fb.eq.1.and.tshock>4e8)then
                    print *, ' TKWARN: told, tnew [1e8]=', 
      &             sngl(tshock/1e8), sngl(tmaxshock/1e8)
                 endif
@@ -1453,7 +1457,7 @@ c            limit the temperature of a shock if you wish (not physical though)
              tshock   = eint_new*t2
              ekin_new = ekin_new/dsolid
 
-             if(verbose_SN.eq.1)then
+             if(verbose_fb.eq.1)then
                 if(tshock>4e8)then
                    print *, ' TKWARN: told, tnew [1e8]=', 
      &             sngl(tshock_old/1e8), sngl(tshock/1e8)
@@ -1468,7 +1472,7 @@ c            limit the temperature of a shock if you wish (not physical though)
              if(idual.eq.1) ge(ic,jc,kc) = eint_new
           endif
 
-          if(verbose_SN.eq.1)then
+          if(verbose_fb.eq.1)then
              uej = psn_solid_x/dsolid*v1/1e5
              vej = psn_solid_y/dsolid*v1/1e5
              wej = psn_solid_z/dsolid*v1/1e5

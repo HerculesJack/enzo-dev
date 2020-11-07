@@ -302,7 +302,7 @@ extern "C" void FORTRAN_NAME(star_maker11)(int *nx, int *ny, int *nz,
         int *np, 
         FLOAT *xp, FLOAT *yp, FLOAT *zp, float *up, float *vp, float *wp, 
         float *mp, float *tdp, float *tcp, float *metalf,
-        int *imetalSNIa, float *metalSNIa, float *metalfSNIa, float *mp0);
+        int *imetalSNIa, float *metalSNIa, float *metalfSNIa, float *mp0, int *verbose_mk);
 
 #ifdef STAR1
 extern "C" void FORTRAN_NAME(star_feedback1)(int *nx, int *ny, int *nz,
@@ -443,7 +443,7 @@ extern "C" void FORTRAN_NAME(star_feedback11)(int *nx, int *ny, int *nz,
              float *mp, float *tdp, float *tcp, int *idold, float *metalf, 
              int *imetalSNIa, float *metalSNIa, float *metalfSNIa, int *type,
              float *justburn, float *mp0, float *f_leftover,
-             int *consv_p, int *consv_e, float *tmaxshock, int *verbose_SN,
+             int *consv_p, int *consv_e, float *tmaxshock, int *verbose_fb,
              int *iPN, int *snloadtype, float *vlimit); 
 
 extern "C" void FORTRAN_NAME(star_feedback_pn_snia)
@@ -1335,7 +1335,7 @@ int grid::StarParticleHandler(HierarchyEntry* SubgridPointer, int level,
        tg->ParticleMass, tg->ParticleAttribute[1], tg->ParticleAttribute[0],
        tg->ParticleAttribute[2],
        &StarMakerTypeIaSNe, BaryonField[MetalIaNum], tg->ParticleAttribute[3],
-       tg->ParticleAttribute[4]);
+       tg->ParticleAttribute[4], &StarMakerVerbose);
 
       // make it back to original 
       if (ComovingCoordinates){
