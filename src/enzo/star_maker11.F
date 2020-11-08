@@ -465,14 +465,15 @@ c
       ! sanity check
       if(imethod.ne.2.and.idual.ne.1)then
          print *,'>>>ERR: Turn on DualEnergyFormalism '
-         print *,'>>>to use Feedback=4096 for non-Zeus solvers'
+         print *,'>>>to use Feedback=32768 for non-Zeus solvers'
          stop
       endif
 
 c-----------------------------------------------------------------------
 c    0. intialize and set some useful numbers
 c-----------------------------------------------------------------------
-      if(imethod.ne.0) displace=1    ! safety device not to touch the boundary
+      !if(imethod.ne.0)
+      displace=1    ! safety device not to touch the boundary
       if(imethod.eq.2) displace=2
 
       Z_Ia    = 1d0  ! assume that 100% of the snIa ejecta is metal 
@@ -758,7 +759,7 @@ c   add some fraction of SN ejecta and subtract mass to be entrained.
 c   these cells will be updated later if they are near to other SNe
 
       do k=1+ibuff,nz-ibuff
-      do j=1+ibuff,ny-ibuff 
+      do j=1+ibuff,ny-ibuff
       do i=1+ibuff,nx-ibuff
 
          nsn_tot=nsn2(i,j,k)+nsnIa(i,j,k)
