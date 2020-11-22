@@ -688,16 +688,18 @@ c     no supernova? return
 
       if(verbose_fb.eq.1) print *,'NSN II, Ia =', sum(nsn2), sum(nsnIa)
 
-c     warning message
-      if(verbose_fb.eq.1)then
-         if((nx-ibuff*2.le.2).or.
-     &      (ny-ibuff*2.le.2).or.
-     &      (nz-ibuff*2.le.2)) then
-             print *,'>>>TKWARN: mechanical feedback needs 3x3x3 grids'
-             print *,'>>>TKWARN: but you have nx,ny,nz=',
-     &       int(nx-ibuff*2,kind=2),int(ny-ibuff*2,kind=2),
-     &       int(nz-ibuff*2,kind=2)
-         endif
+c     check zone size
+      if((nx-ibuff*2.lt.1+displace*2).or.
+     &   (ny-ibuff*2.lt.1+displace*2).or.
+     &   (nz-ibuff*2.lt.1+displace*2)) then
+         write(6,*) 'you have nx,ny,nz=',
+     &   int(nx-ibuff*2, kind=2),
+     &   int(ny-ibuff*2, kind=2),
+     &   int(nz-ibuff*2, kind=2)
+         write(6,*) 'but we need each side to be at least ',
+     &   int(1+displace*2, kind=2)
+         write(6,*) 'you may consider using a larger RefineBy'
+         ERROR_MESSAGE
       endif
 
 c     set useful arrays (it would've been better not to do this
