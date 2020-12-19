@@ -687,19 +687,19 @@ c     no supernova? return
       if(sum(nsnIa+nsn2).eq.0) goto 300
 
       if(verbose_fb.eq.1) print *,'NSN II, Ia =', sum(nsn2), sum(nsnIa)
+      !if(z.lt.5.5) print *, 'HJ DEBUG 0', t, xstart, ystart, zstart
 
 c     check zone size
       if((nx-ibuff*2.lt.1+displace*2).or.
      &   (ny-ibuff*2.lt.1+displace*2).or.
      &   (nz-ibuff*2.lt.1+displace*2)) then
-         write(6,*) 'you have nx,ny,nz=',
+         write(6,*) 'WARNING: you have nx,ny,nz=',
      &   int(nx-ibuff*2, kind=2),
      &   int(ny-ibuff*2, kind=2),
      &   int(nz-ibuff*2, kind=2)
-         write(6,*) 'but we need each side to be at least ',
+         write(6,*) 'WARNING: but we need each side to be at least ',
      &   int(1+displace*2, kind=2)
-         write(6,*) 'you may consider using a larger RefineBy'
-         ERROR_MESSAGE
+         write(6,*) 'WARNING: you may consider using a larger RefineBy'
       endif
 
 c     set useful arrays (it would've been better not to do this
@@ -760,6 +760,7 @@ c-------------------------------------------------------
 c   add some fraction of SN ejecta and subtract mass to be entrained.
 c   these cells will be updated later if they are near to other SNe
 
+      !if(z.lt.5.5) print *, 'HJ DEBUG 1', t, xstart, ystart, zstart
       do k=1+ibuff,nz-ibuff
       do j=1+ibuff,ny-ibuff
       do i=1+ibuff,nx-ibuff
@@ -976,6 +977,7 @@ c         distribute metal
 c-----------------------------------------
 c   2.2 inject mass, momentum, and energy
 c-----------------------------------------
+      !if(z.lt.5.5) print *, 'HJ DEBUG 2', t, xstart, ystart, zstart
       do k=1+ibuff,nz-ibuff
       do j=1+ibuff,ny-ibuff 
       do i=1+ibuff,nx-ibuff
@@ -1551,7 +1553,8 @@ c            limit the temperature of a shock if you wish (not physical though)
       end do 
 
 300   continue
-  
+
+      !if(z.lt.5.5) print *, 'HJ DEBUG 3', t, xstart, ystart, zstart
       return
       end
 c=======================================================================
