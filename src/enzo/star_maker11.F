@@ -306,7 +306,7 @@ c
      &                   metalf, imetalSNIa, metalSNIa, metalfSNIa,
      &                   type, justburn, mp0, FLEFTSN,
      &                   consv_p, consv_e, tmaxshock, 
-     &                   verbose_fb, iPN, loadtype, vlimit)
+     &                   verbose_fb, iPN, loadtype, vlimit, small_fatal)
 c
 c
 c  RELEASES "STAR" PARTICLE MOMENTUM, ENERGY, MASS AND METALS
@@ -378,6 +378,7 @@ c    vlimit     - limit velocity
 c    imode      - injection mode (0: immediate 6 faces, 2: 2nd layer,
 c                 1: hybrid (eta<eta_crit: 0, eta>eta_crit: 1)
 c                 StarFeedbackDistRadius is used for this
+c    small_fatal - terminate the program if too small grids encountered
 c
 c  OUTPUTS:
 c    d,u,v,w,ge,e - modified field
@@ -403,7 +404,7 @@ c
       R_PREC    up(npart), vp(npart), wp(npart)
       R_PREC    mp(npart), tdp(npart), tcp(npart), metalf(npart)
       INTG_PREC imetalSNIa, type(npart), id0(npart), imode
-      INTG_PREC consv_p, consv_e, verbose_fb, loadtype, iPN
+      INTG_PREC consv_p, consv_e, verbose_fb, loadtype, iPN, small_fatal
       R_PREC    metalfSNIa(npart), mp0(npart)
       R_PREC    m_eject, sn_param, yield, FLEFTSN, tmaxshock, vlimit
 c
@@ -700,7 +701,11 @@ c     check zone size
      &   int(nz-ibuff*2, kind=2)
          write(6,*) 'WARNING: but we need each side to be at least ',
      &   int(1+displace*2, kind=2)
-         write(6,*) 'WARNING: you may consider using a larger RefineBy'
+         !write(6,*) 'WARNING: you may consider using a larger RefineBy'
+         if(small_fatal.ne.0) then
+            write(6,*) 'The grid is too small!'
+            ERROR_MESSAGE
+         endif
       endif
 
 c     set useful arrays (it would've been better not to do this

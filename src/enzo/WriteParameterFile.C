@@ -1042,6 +1042,10 @@ int WriteParameterFile(FILE *fptr, TopGridData &MetaData, char *name = NULL)
   fprintf(fptr, "StarFeedbackVelocityMax               = %"GSYM"\n",
           StarFeedbackVelocityMax);
 
+  // added by HJ
+  fprintf(fptr, "StarFeedbackSmallGridFatalError       = %"ISYM"\n",
+          StarFeedbackSmallGridFatalError);
+
   fprintf(fptr, "MBHAccretion                          = %"ISYM"\n", MBHAccretion);
   fprintf(fptr, "MBHAccretionRadius                    = %"GSYM"\n", MBHAccretionRadius);
   fprintf(fptr, "MBHAccretingMassRatio                 = %"GSYM"\n", MBHAccretingMassRatio);

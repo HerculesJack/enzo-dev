@@ -76,6 +76,7 @@ SPEXTERN int StarMakerVerbose;
 SPEXTERN int StarFeedbackVerbose;
 SPEXTERN int StarFeedbackLoadingType;
 SPEXTERN float StarFeedbackVelocityMax;
+SPEXTERN int StarFeedbackSmallGridFatalError;
 
 SPEXTERN float PopIIIStarMass;
 SPEXTERN int   PopIIIInitialMassFunction;

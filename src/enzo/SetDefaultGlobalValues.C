@@ -617,6 +617,9 @@ int SetDefaultGlobalValues(TopGridData &MetaData)
   StarFeedbackLoadingType          = 0;
   StarFeedbackVelocityMax          = 1e4;   // kms
 
+  // added by HJ
+  StarFeedbackSmallGridFatalError  = TRUE;
+
   IsotropicConduction = FALSE;
   AnisotropicConduction = FALSE;
   IsotropicConductionSpitzerFraction = 0.0;

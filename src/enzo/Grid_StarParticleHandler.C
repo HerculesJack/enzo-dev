@@ -444,7 +444,7 @@ extern "C" void FORTRAN_NAME(star_feedback11)(int *nx, int *ny, int *nz,
              int *imetalSNIa, float *metalSNIa, float *metalfSNIa, int *type,
              float *justburn, float *mp0, float *f_leftover,
              int *consv_p, int *consv_e, float *tmaxshock, int *verbose_fb,
-             int *iPN, int *snloadtype, float *vlimit); 
+             int *iPN, int *snloadtype, float *vlimit, int *small_fatal); 
 
 extern "C" void FORTRAN_NAME(star_feedback_pn_snia)
   (int *nx, int *ny, int *nz,
@@ -2095,7 +2095,8 @@ int grid::StarParticleHandler(HierarchyEntry* SubgridPointer, int level,
       ParticleAttribute[4], &StarFeedbackFLeftover,
       &StarFeedbackConserveMomentum, &StarFeedbackConserveEnergy,
       &StarFeedbackMaximumShockTemperature, &StarFeedbackVerbose,
-      &StarMakerPlanetaryNebulae, &StarFeedbackLoadingType, &StarFeedbackVelocityMax);
+      &StarMakerPlanetaryNebulae, &StarFeedbackLoadingType, &StarFeedbackVelocityMax,
+      &StarFeedbackSmallGridFatalError);
 
     for (i = 0 ; i < NumberOfParticles; i++) {
       if(ParticleType[i]>10) {

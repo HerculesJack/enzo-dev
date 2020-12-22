@@ -1068,6 +1068,10 @@ int ReadParameterFile(FILE *fptr, TopGridData &MetaData, float *Initialdt)
     ret += sscanf(line, "StarFeedbackVelocityMax = %"FSYM, 
                   &StarFeedbackVelocityMax);
 
+    //  added by HJ
+    ret += sscanf(line, "StarFeedbackSmallGridFatalError = %"ISYM,
+                  &StarFeedbackSmallGridFatalError);
+
     ret += sscanf(line, "MBHAccretion = %"ISYM, &MBHAccretion);
     ret += sscanf(line, "MBHAccretionRadius = %"FSYM, &MBHAccretionRadius);
     ret += sscanf(line, "MBHAccretingMassRatio = %"FSYM, &MBHAccretingMassRatio);
