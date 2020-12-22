@@ -41,7 +41,7 @@ c    (original changes by M. Ryan Joung)
 c  modified2: 27 Sept 2013 by Taysun Kimm
 c    added creation mass for more accurate feedback
 c  modified3: 7 Nov 2020 by He Jia
-c    removed Jeans criterion, added verbose mode
+c    added verbose mode
 c
 c  INPUTS:
 c
@@ -182,7 +182,8 @@ c
 c
 c  THIS IS COMMENTED OUT - NO JEANS MASS CRITERION IN THIS ALGORITHM!!!
 c  BWO, 13 NOV 02 (fix 3 dec 02)
-c              if (bmass .lt. jeanmass) goto 10
+c  JEANS MASS CRITERION ADDED BACK by TK
+               if (bmass .lt. jeanmass) goto 10
 c
 c              6) Check to see if star is above threshold (given
 c                 in units of M_solar)
