@@ -39,14 +39,15 @@ int ProtoSubgrid::LargeAxisRatioCheck(int &SplitDim, int GridEnds[MAX_DIMENSION*
 
   if (float(GridDimension[DimLong])/float(GridDimension[DimShort]) > CriticalRatio) {
 
-
-    SplitDim = DimLong;
-    int Center = (GridDimension[SplitDim]-1)/2;
-    //printf("GridDims are %d,\n",Center,SplitDim);
-    GridEnds[SplitDim*2][0] = StartIndex[SplitDim];
-    GridEnds[SplitDim*2][1] = StartIndex[SplitDim] + Center;
-    GridEnds[SplitDim*2+1][0] = min(GridEnds[SplitDim*2][1]+1, EndIndex[SplitDim]);
-    GridEnds[SplitDim*2+1][1] = EndIndex[SplitDim];
+    int Center = (GridDimension[DimLong] - 1) / 2;
+    if (Center >= MinimumSubgridEdge && GridDimension[DimLong] - Center >= MinimumSubgridEdge) {
+      SplitDim = DimLong;
+      //printf("GridDims are %d,\n",Center,SplitDim);
+      GridEnds[SplitDim*2][0] = StartIndex[SplitDim];
+      GridEnds[SplitDim*2][1] = StartIndex[SplitDim] + Center;
+      GridEnds[SplitDim*2+1][0] = min(GridEnds[SplitDim*2][1] + 1, EndIndex[SplitDim]);
+      GridEnds[SplitDim*2+1][1] = EndIndex[SplitDim];
+    }
 
     //    printf("Ori GridEnds: %d %d\n",StartIndex[SplitDim],EndIndex[SplitDim]);
     // printf("New GridEnds: %d %d %d %d\n",GridEnds[SplitDim*2][0],GridEnds[SplitDim*2][1],GridEnds[SplitDim*2+1][0],GridEnds[SplitDim*2+1][1]);

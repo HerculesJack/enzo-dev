@@ -46,25 +46,45 @@ int ProtoSubgrid::FindGridsByZeroSignature(int dim, int &NumberOfNewGrids,
     /* Look for the start of a new subgrid. */
  
     if (Signature[dim][i] != 0) {
+
+      /* If we do not have enough zones on the right. */
+
+      if (GridDimension[dim] - i <= 2 * MinimumSubgridEdge) {
+        if (GridDimension[dim] - i <= MinimumSubgridEdge) {
+          GridEnds[NumberOfNewGrids][0] = StartIndex[dim] + GridDimension[dim] - MinimumSubgridEdge;
+        }
+        else {
+          GridEnds[NumberOfNewGrids][0] = StartIndex[dim] + i;
+        }
+        GridEnds[NumberOfNewGrids++][1] = StartIndex[dim] + GridDimension[dim] - 1;
+        break;
+      }
+
       GridEnds[NumberOfNewGrids][0] = StartIndex[dim] + i;
  
       /* Now find the end of the subgrid. */
- 
-      while (i < GridDimension[dim] && Signature[dim][i] != 0)
-	i++;
-      GridEnds[NumberOfNewGrids++][1] = StartIndex[dim] + i-1;
 
-      if ( NumberOfNewGrids > MAX_NUMBER_OF_SUBGRIDS ) {
-        ENZO_VFAIL("PE %"ISYM" NumberOfNewGrids > MAX_NUMBER_OF_SUBGRIDS in ProtoSubgrid_FindGridsByZeroSignature\n", MyProcessorNumber)
-
+      i += MinimumSubgridEdge - 1;
+      if (Signature[dim][i] == 0) {
+        GridEnds[NumberOfNewGrids++][1] = StartIndex[dim] + i;
+      }
+      else {
+        while (i < GridDimension[dim] && Signature[dim][i] != 0) i++;
+        if (GridDimension[dim] - i < MinimumSubgridEdge) i = GridDimension[dim];
+        GridEnds[NumberOfNewGrids++][1] = StartIndex[dim] + i - 1;
       }
 
-    }
+      if (NumberOfNewGrids > MAX_NUMBER_OF_SUBGRIDS) {
+        ENZO_VFAIL("PE %"ISYM" NumberOfNewGrids > MAX_NUMBER_OF_SUBGRIDS in "
+                   "ProtoSubgrid_FindGridsByZeroSignature\n", MyProcessorNumber)
+      }
+
+    } // end: if (Signature[dim][i] != 0)
  
     /* Next zone in signature. */
  
     i++;
-  }
+  } // end: while (i < GridDimension[dim])
  
   return SUCCESS;
 }

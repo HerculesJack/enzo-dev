@@ -48,7 +48,13 @@ int ProtoSubgrid::ShrinkToMinimumSize()
   /* For each dim, find first and last location of a non-zero signature. */
  
   for (dim = 0; dim < GridRank; dim++) {
- 
+
+    /* Check the subgrid size. */
+
+    if (StarFeedbackSmallGridFatalError && GridDimension[dim] < MinimumSubgridEdge) {
+      ENZO_FAIL("The subgrid is already too small!")
+    }
+
     /* Look for the start. */
  
     i = 0;
@@ -68,6 +74,32 @@ int ProtoSubgrid::ShrinkToMinimumSize()
       i--;
     End[dim] = i + StartIndex[dim];
     if (i != GridDimension[dim]-1) MoveFlag = TRUE;
+
+    /* Check the subgrid size. */
+
+    if (StarFeedbackSmallGridFatalError && (End[dim] - Start[dim]) < MinimumSubgridEdge) {
+      int m_left, m_right, n_total, n_left, n_right;
+      m_left = Start[dim] - StartIndex[dim]; // # of zones remaining at the left & right
+      m_right = StartIndex[dim] + GridDimension[dim] - 1 - End[dim];
+      n_total = MinimumSubgridEdge + Start[dim] - End[dim];
+      n_left = n_total / 2; // # of zones to extend at the left & right
+      n_right = n_total - n_left;
+      if (n_left <= m_left && n_right <= m_right) {
+        Start[dim] -= n_left;
+        End[dim] += n_right;
+      }
+      else if (n_left > m_left) {
+        Start[dim] -= m_left;
+        End[dim] += n_total - m_left;
+      }
+      else {
+        Start[dim] -= n_total - m_right;
+        End[dim] += m_right;
+      }
+      if (End[dim] - Start[dim] == GridDimension[dim] - 1) {
+        MoveFlag = FALSE;
+      }
+    }
   }
  
   /* Move, if necessary. */
