@@ -35,7 +35,7 @@ static ProtoSubgrid *SubgridList[MAX_NUMBER_OF_SUBGRIDS];
 int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
 		 int &FlaggedGrids)
 {
- 
+
   /* declarations */
 #ifdef MPI_INSTRUMENTATION
   int GridMemory,NumberOfCells,CellsTotal,Particles;
@@ -106,7 +106,8 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
   flagging_count ++;
   flagging_pct += float(NumberOfFlaggedCells) / NumberOfCells;
 #endif
- 
+  
+  // printf("HJ DEBUG: NumberOfFlaggedCells=%"ISYM".\n", NumberOfFlaggedCells);
   if (NumberOfFlaggedCells != 0) {
  
     /* Create the base ProtoSubgrid which contains the whole grid. */
@@ -125,20 +126,24 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
     /* Recursively break up this ProtoSubgrid and add new ones based on the
        flagged cells. */
 
-    printf("HJ DEBUG: initial ProtoSubgrid, GridDimension=%"ISYM", %"ISYM", %"ISYM".\n",
+    /*printf("HJ DEBUG: initial ProtoSubgrid, GridDimension=%"ISYM", %"ISYM", %"ISYM".\n",
            SubgridList[0]->ReturnGridDimension()[0],
            SubgridList[0]->ReturnGridDimension()[1],
-           SubgridList[0]->ReturnGridDimension()[2]);
+           SubgridList[0]->ReturnGridDimension()[2]);*/
 
     if (IdentifyNewSubgridsBySignature(SubgridList, NumberOfSubgrids) == FAIL){
       ENZO_FAIL("Error in IdentifyNewSubgridsBySignature.");
     }
 
     for (i = 0; i < NumberOfSubgrids; i++) {
-      printf("HJ DEBUG: ProtoSubgrid #%"ISYM", GridDimension=%"ISYM", %"ISYM", %"ISYM".\n", i,
+      if (SubgridList[i]->ReturnGridDimension()[0] < MinimumSubgridEdge ||
+          SubgridList[i]->ReturnGridDimension()[1] < MinimumSubgridEdge ||
+          SubgridList[i]->ReturnGridDimension()[2] < MinimumSubgridEdge) {
+        printf("HJ DEBUG: ProtoSubgrid #%"ISYM", GridDimension=%"ISYM", %"ISYM", %"ISYM".\n", i,
              SubgridList[i]->ReturnGridDimension()[0],
              SubgridList[i]->ReturnGridDimension()[1],
              SubgridList[i]->ReturnGridDimension()[2]);
+      }
     }
 
     /* For each subgrid, create a new grid based on the current grid (i.e.
