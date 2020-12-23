@@ -57,11 +57,14 @@ int ProtoSubgrid::FindGridsByZeroSignature(int dim, int &NumberOfNewGrids,
           GridEnds[NumberOfNewGrids][0] = StartIndex[dim] + i;
         }
         GridEnds[NumberOfNewGrids++][1] = StartIndex[dim] + GridDimension[dim] - 1;
+        printf("HJ DEBUG: FindGridsByZeroSignature 0, GridEnds[NumberOfNewGrids][0]=%"ISYM", "
+               "GridEnds[NumberOfNewGrids][1]=%"ISYM", StartIndex[dim]=%"ISYM", EndIndex[dim]=%"ISYM"\n",
+               GridEnds[NumberOfNewGrids - 1][0], GridEnds[NumberOfNewGrids - 1][1], StartIndex[dim], EndIndex[dim]);
         break;
       }
 
       GridEnds[NumberOfNewGrids][0] = StartIndex[dim] + i;
- 
+
       /* Now find the end of the subgrid. */
 
       i += MinimumSubgridEdge - 1;
@@ -73,6 +76,10 @@ int ProtoSubgrid::FindGridsByZeroSignature(int dim, int &NumberOfNewGrids,
         if (GridDimension[dim] - i < MinimumSubgridEdge) i = GridDimension[dim];
         GridEnds[NumberOfNewGrids++][1] = StartIndex[dim] + i - 1;
       }
+
+      printf("HJ DEBUG: FindGridsByZeroSignature 1, GridEnds[NumberOfNewGrids][0]=%"ISYM", "
+             "GridEnds[NumberOfNewGrids][1]=%"ISYM", StartIndex[dim]=%"ISYM", EndIndex[dim]=%"ISYM"\n",
+             GridEnds[NumberOfNewGrids - 1][0], GridEnds[NumberOfNewGrids - 1][1], StartIndex[dim], EndIndex[dim]);
 
       if (NumberOfNewGrids > MAX_NUMBER_OF_SUBGRIDS) {
         ENZO_VFAIL("PE %"ISYM" NumberOfNewGrids > MAX_NUMBER_OF_SUBGRIDS in "

@@ -69,7 +69,7 @@ int ProtoSubgrid::ShrinkToMinimumSize()
  
     /* Look for the end. */
  
-    i = GridDimension[dim]-1;
+    i = GridDimension[dim] - 1;
     while (i >= 0 && Signature[dim][i] == 0)
       i--;
     End[dim] = i + StartIndex[dim];
@@ -77,11 +77,11 @@ int ProtoSubgrid::ShrinkToMinimumSize()
 
     /* Check the subgrid size. */
 
-    if (StarFeedbackSmallGridFatalError && (End[dim] - Start[dim]) < MinimumSubgridEdge) {
+    if ((End[dim] - Start[dim]) < MinimumSubgridEdge) {
       int m_left, m_right, n_total, n_left, n_right;
       m_left = Start[dim] - StartIndex[dim]; // # of zones remaining at the left & right
       m_right = StartIndex[dim] + GridDimension[dim] - 1 - End[dim];
-      n_total = MinimumSubgridEdge + Start[dim] - End[dim];
+      n_total = MinimumSubgridEdge + Start[dim] - End[dim] - 1;
       n_left = n_total / 2; // # of zones to extend at the left & right
       n_right = n_total - n_left;
       if (n_left <= m_left && n_right <= m_right) {
@@ -91,13 +91,19 @@ int ProtoSubgrid::ShrinkToMinimumSize()
       else if (n_left > m_left) {
         Start[dim] -= m_left;
         End[dim] += n_total - m_left;
+        printf("HJ DEBUG: ShrinkToMinimumSize 0, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
+               m_left, m_right, n_left, n_right);
       }
       else {
         Start[dim] -= n_total - m_right;
         End[dim] += m_right;
+        printf("HJ DEBUG: ShrinkToMinimumSize 1, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
+               m_left, m_right, n_left, n_right);
       }
       if (End[dim] - Start[dim] == GridDimension[dim] - 1) {
         MoveFlag = FALSE;
+        printf("HJ DEBUG: ShrinkToMinimumSize 2, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
+               m_left, m_right, n_left, n_right);
       }
     }
   }

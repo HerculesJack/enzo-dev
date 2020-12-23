@@ -48,6 +48,10 @@ int ProtoSubgrid::LargeAxisRatioCheck(int &SplitDim, int GridEnds[MAX_DIMENSION*
       GridEnds[SplitDim*2+1][0] = StartIndex[SplitDim] + Center + 1;
       GridEnds[SplitDim*2+1][1] = EndIndex[SplitDim];
     }
+    else {
+      printf("HJ DEBUG: LargeAxisRatioCheck, Center=%"ISYM", StartIndex[DimLong]=%"ISYM", EndIndex[DimLong]=%"ISYM"\n",
+             Center, StartIndex[DimLong], EndIndex[DimLong]);
+    }
 
     //    printf("Ori GridEnds: %d %d\n",StartIndex[SplitDim],EndIndex[SplitDim]);
     // printf("New GridEnds: %d %d %d %d\n",GridEnds[SplitDim*2][0],GridEnds[SplitDim*2][1],GridEnds[SplitDim*2+1][0],GridEnds[SplitDim*2+1][1]);
