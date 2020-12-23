@@ -40,12 +40,12 @@ int ProtoSubgrid::LargeAxisRatioCheck(int &SplitDim, int GridEnds[MAX_DIMENSION*
   if (float(GridDimension[DimLong])/float(GridDimension[DimShort]) > CriticalRatio) {
 
     int Center = (GridDimension[DimLong] - 1) / 2;
-    if (Center >= MinimumSubgridEdge && GridDimension[DimLong] - Center >= MinimumSubgridEdge) {
+    if (Center >= MinimumSubgridEdge - 1 && EndIndex[DimLong] - StartIndex[DimLong] - Center >= MinimumSubgridEdge) {
       SplitDim = DimLong;
       //printf("GridDims are %d,\n",Center,SplitDim);
       GridEnds[SplitDim*2][0] = StartIndex[SplitDim];
       GridEnds[SplitDim*2][1] = StartIndex[SplitDim] + Center;
-      GridEnds[SplitDim*2+1][0] = min(GridEnds[SplitDim*2][1] + 1, EndIndex[SplitDim]);
+      GridEnds[SplitDim*2+1][0] = StartIndex[SplitDim] + Center + 1;
       GridEnds[SplitDim*2+1][1] = EndIndex[SplitDim];
     }
 
