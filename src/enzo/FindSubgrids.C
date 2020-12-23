@@ -124,11 +124,23 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
  
     /* Recursively break up this ProtoSubgrid and add new ones based on the
        flagged cells. */
- 
+
+    printf("HJ DEBUG: initial ProtoSubgrid, GridDimension=%"ISYM", %"ISYM", %"ISYM".\n",
+           SubgridList[0]->ReturnGridDimension()[0],
+           SubgridList[0]->ReturnGridDimension()[1],
+           SubgridList[0]->ReturnGridDimension()[2]);
+
     if (IdentifyNewSubgridsBySignature(SubgridList, NumberOfSubgrids) == FAIL){
       ENZO_FAIL("Error in IdentifyNewSubgridsBySignature.");
     }
- 
+
+    for (i = 0; i < NumberOfSubgrids; i++) {
+      printf("HJ DEBUG: ProtoSubgrid #%"ISYM", GridDimension=%"ISYM", %"ISYM", %"ISYM".\n", i,
+             SubgridList[i]->ReturnGridDimension()[0],
+             SubgridList[i]->ReturnGridDimension()[1],
+             SubgridList[i]->ReturnGridDimension()[2]);
+    }
+
     /* For each subgrid, create a new grid based on the current grid (i.e.
        same parameters, etc.) */
  
