@@ -52,7 +52,7 @@ int ProtoSubgrid::ShrinkToMinimumSize()
     /* Check the subgrid size. */
 
     if (StarFeedbackSmallGridFatalError && GridDimension[dim] < MinimumSubgridEdge) {
-      ENZO_FAIL("The subgrid is already too small!")
+      ENZO_FAIL("The subgrid is already too small!");
     }
 
     /* Look for the start. */
@@ -64,7 +64,8 @@ int ProtoSubgrid::ShrinkToMinimumSize()
     Start[dim] = i + StartIndex[dim];
  
     if (i == GridDimension[dim]) {
-      ENZO_FAIL("No flagged cells in ProtoSubgrid!");
+      printf("HJ Warning: No flagged cells in ProtoSubgrid!");
+      return NO_FLAGGED;
     }
  
     /* Look for the end. */

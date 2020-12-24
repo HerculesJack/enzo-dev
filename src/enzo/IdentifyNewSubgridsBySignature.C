@@ -33,7 +33,7 @@ int IdentifyNewSubgridsBySignature(ProtoSubgrid *SubgridList[], int &NumberOfSub
 
   int dim, i, j, NumberOfNewGrids;
   ProtoSubgrid *NewSubgrid, *Subgrid;
-  int do_nothing;
+  int do_nothing, shrink;
 
   /* Loop over all the grids in the queue SubgridList. */
 
@@ -50,8 +50,17 @@ int IdentifyNewSubgridsBySignature(ProtoSubgrid *SubgridList[], int &NumberOfSub
 
     /* Shrink this subgrid (if necessary) to produce the smallest box. */
 
-    if (Subgrid->ShrinkToMinimumSize() == FAIL) {
+    shrink = Subgrid->ShrinkToMinimumSize();
+    if (shrink == FAIL) {
       ENZO_FAIL("Error in ProtoSubgrid->ShrinkToMinimumSize.");
+    }
+    else if (shrink == NO_FLAGGED) {
+      delete Subgrid;
+      if (index < NumberOfSubgrids - 1) {
+        SubgridList[index] = SubgridList[NumberOfSubgrids - 1];
+      }
+      NumberOfSubgrids--;
+      continue;
     }
 
     /* Iterate on this grid until it is acceptable. */
@@ -178,8 +187,17 @@ int IdentifyNewSubgridsBySignature(ProtoSubgrid *SubgridList[], int &NumberOfSub
 
       /* Shrink this subgrid (if necessary) to produce the smallest box. */
 
-      if (Subgrid->ShrinkToMinimumSize() == FAIL) {
+      shrink = Subgrid->ShrinkToMinimumSize();
+      if (shrink == FAIL) {
         ENZO_FAIL("Error in ProtoSubgrid->ShrinkToMinimumSize.");
+      }
+      else if (shrink == NO_FLAGGED) {
+        delete Subgrid;
+        if (index < NumberOfSubgrids - 1) {
+          SubgridList[index] = SubgridList[NumberOfSubgrids - 1];
+        }
+        NumberOfSubgrids--;
+        continue;
       }
 
     } // end: while (Subgrid->AcceptableSubgrid() == FALSE)

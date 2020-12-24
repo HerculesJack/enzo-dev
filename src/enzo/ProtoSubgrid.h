@@ -13,6 +13,8 @@
 #ifndef PROTO_SUBGRID_DEFINED__
 #define PROTO_SUBGRID_DEFINED__
 
+#define NO_FLAGGED -100
+
 class ProtoSubgrid
 {
  private:
