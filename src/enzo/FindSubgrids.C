@@ -135,7 +135,7 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
       ENZO_FAIL("Error in IdentifyNewSubgridsBySignature.");
     }
 
-    for (i = 0; i < NumberOfSubgrids; i++) {
+    /*for (i = 0; i < NumberOfSubgrids; i++) {
       if (SubgridList[i]->ReturnGridDimension()[0] < MinimumSubgridEdge ||
           SubgridList[i]->ReturnGridDimension()[1] < MinimumSubgridEdge ||
           SubgridList[i]->ReturnGridDimension()[2] < MinimumSubgridEdge) {
@@ -144,7 +144,7 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
              SubgridList[i]->ReturnGridDimension()[1],
              SubgridList[i]->ReturnGridDimension()[2]);
       }
-    }
+    }*/
 
     /* For each subgrid, create a new grid based on the current grid (i.e.
        same parameters, etc.) */

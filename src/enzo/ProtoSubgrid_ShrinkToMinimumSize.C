@@ -64,7 +64,7 @@ int ProtoSubgrid::ShrinkToMinimumSize()
     Start[dim] = i + StartIndex[dim];
  
     if (i == GridDimension[dim]) {
-      printf("HJ Warning: No flagged cells in ProtoSubgrid!");
+      printf("HJ Warning: No flagged cells in ProtoSubgrid!\n");
       return NO_FLAGGED;
     }
  
@@ -92,19 +92,19 @@ int ProtoSubgrid::ShrinkToMinimumSize()
       else if (n_left > m_left) {
         Start[dim] -= m_left;
         End[dim] += n_total - m_left;
-        printf("HJ DEBUG: ShrinkToMinimumSize 0, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
-               m_left, m_right, n_left, n_right);
+        /*printf("HJ DEBUG: ShrinkToMinimumSize 0, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
+               m_left, m_right, n_left, n_right);*/
       }
       else {
         Start[dim] -= n_total - m_right;
         End[dim] += m_right;
-        printf("HJ DEBUG: ShrinkToMinimumSize 1, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
-               m_left, m_right, n_left, n_right);
+        /*printf("HJ DEBUG: ShrinkToMinimumSize 1, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
+               m_left, m_right, n_left, n_right);*/
       }
       if (End[dim] - Start[dim] == GridDimension[dim] - 1) {
         MoveFlag = FALSE;
-        printf("HJ DEBUG: ShrinkToMinimumSize 2, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
-               m_left, m_right, n_left, n_right);
+        /*printf("HJ DEBUG: ShrinkToMinimumSize 2, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
+               m_left, m_right, n_left, n_right);*/
       }
     }
   }
