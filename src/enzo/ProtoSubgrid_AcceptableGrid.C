@@ -41,10 +41,11 @@ int ProtoSubgrid::AcceptableSubgrid()
   if (NumberFlagged == INT_UNDEFINED) {
     this->ComputeSignature(0);
     NumberFlagged = 0;
-    if (GridDimension[0] > 2000){
-      printf("HJ WARNING: GridDimension[0] = %"ISYM" in AcceptableSubgrid\n", GridDimension[0]);
-    }
     for (int i = 0; i < GridDimension[0]; i++){
+      /* if (! (GridDimension[0] >= int(0) && GridDimension[0] <= int(2000))){
+        printf("HJ WARNING: i = %"ISYM",\n", i);
+        printf("GridDimension[0] = %"ISYM" in AcceptableSubgrid.\n", GridDimension[0]);
+      } */
       NumberFlagged += Signature[0][i];
     }
   }

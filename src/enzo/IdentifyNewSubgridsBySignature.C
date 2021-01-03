@@ -59,6 +59,7 @@ int IdentifyNewSubgridsBySignature(ProtoSubgrid *SubgridList[], int &NumberOfSub
       if (index < NumberOfSubgrids - 1) {
         SubgridList[index] = SubgridList[NumberOfSubgrids - 1];
       }
+      Subgrid = SubgridList[index];
       NumberOfSubgrids--;
       continue;
     }
@@ -196,6 +197,7 @@ int IdentifyNewSubgridsBySignature(ProtoSubgrid *SubgridList[], int &NumberOfSub
         if (index < NumberOfSubgrids - 1) {
           SubgridList[index] = SubgridList[NumberOfSubgrids - 1];
         }
+        Subgrid = SubgridList[index];
         NumberOfSubgrids--;
         continue;
       }
