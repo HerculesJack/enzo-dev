@@ -98,6 +98,10 @@ int RebuildHierarchy(TopGridData *MetaData,
 		     LevelHierarchyEntry *LevelArray[], int level)
 {
 
+  if (level < 0 || level > 30) {
+    printf("HJ WARNING: level = %"ISYM" in IdentifyNewSubgridsBySignature\n", level);
+  }
+
   if (LevelSubCycleCount[level] % RebuildHierarchyCycleSkip[level]) {
     return SUCCESS;
   }

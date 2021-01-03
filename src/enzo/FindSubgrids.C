@@ -36,6 +36,10 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
 		 int &FlaggedGrids)
 {
 
+  if (level < 0 || level > 30) {
+    printf("HJ WARNING: level = %"ISYM" in FindSubgrids\n", level);
+  }
+
   /* declarations */
 #ifdef MPI_INSTRUMENTATION
   int GridMemory,NumberOfCells,CellsTotal,Particles;
