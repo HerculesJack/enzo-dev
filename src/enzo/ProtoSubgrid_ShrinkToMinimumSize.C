@@ -58,15 +58,15 @@ int ProtoSubgrid::ShrinkToMinimumSize()
     /* Look for the start. */
  
     i = 0;
-    while (i < GridDimension[dim] && Signature[dim][i] == 0)
-      i++;
-    if (i != 0) MoveFlag = TRUE;
-    Start[dim] = i + StartIndex[dim];
- 
+    while (i < GridDimension[dim] && Signature[dim][i] == 0) i++;
+
     if (i == GridDimension[dim]) {
-      printf("HJ Warning: No flagged cells in ProtoSubgrid!\n");
+      /*printf("HJ Warning: No flagged cells in ProtoSubgrid!\n");*/
       return NO_FLAGGED;
     }
+
+    if (i != 0) MoveFlag = TRUE;
+    Start[dim] = i + StartIndex[dim];
  
     /* Look for the end. */
  
@@ -74,11 +74,11 @@ int ProtoSubgrid::ShrinkToMinimumSize()
     while (i >= 0 && Signature[dim][i] == 0)
       i--;
     End[dim] = i + StartIndex[dim];
-    if (i != GridDimension[dim]-1) MoveFlag = TRUE;
+    if (i != GridDimension[dim] - 1) MoveFlag = TRUE;
 
     /* Check the subgrid size. */
 
-    if ((End[dim] - Start[dim]) < MinimumSubgridEdge) {
+    if ((End[dim] - Start[dim] + 1) < MinimumSubgridEdge) {
       int m_left, m_right, n_total, n_left, n_right;
       m_left = Start[dim] - StartIndex[dim]; // # of zones remaining at the left & right
       m_right = StartIndex[dim] + GridDimension[dim] - 1 - End[dim];
@@ -89,17 +89,20 @@ int ProtoSubgrid::ShrinkToMinimumSize()
         Start[dim] -= n_left;
         End[dim] += n_right;
       }
-      else if (n_left > m_left) {
+      else if (n_left > m_left && n_total - m_left <= m_right) {
         Start[dim] -= m_left;
         End[dim] += n_total - m_left;
         /*printf("HJ DEBUG: ShrinkToMinimumSize 0, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
                m_left, m_right, n_left, n_right);*/
       }
-      else {
+      else if (n_right > m_right && n_total - m_right <= m_left) {
         Start[dim] -= n_total - m_right;
         End[dim] += m_right;
         /*printf("HJ DEBUG: ShrinkToMinimumSize 1, m_left=%"ISYM", m_right=%"ISYM", n_left=%"ISYM", n_right=%"ISYM"\n",
                m_left, m_right, n_left, n_right);*/
+      }
+      else {
+        ENZO_FAIL("Unexpectedly, the subgrid seems too small!");
       }
       if (End[dim] - Start[dim] == GridDimension[dim] - 1) {
         MoveFlag = FALSE;

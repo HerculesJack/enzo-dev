@@ -36,7 +36,7 @@ int FindSubgrids(HierarchyEntry *Grid, int level, int &TotalFlaggedCells,
 		 int &FlaggedGrids)
 {
 
-  if (level < 0 || level > 30) {
+  if (level < 0 || level > 100) {
     printf("HJ WARNING: level = %"ISYM" in FindSubgrids\n", level);
   }
 

@@ -33,7 +33,11 @@ int ProtoSubgrid::FindGridsByZeroSignature(int dim, int &NumberOfNewGrids,
   if (Signature[dim] == NULL) {
     ENZO_VFAIL("Signature %"ISYM" not yet computed.\n", dim)
   }
- 
+
+  if (GridDimension[dim] < MinimumSubgridEdge) {
+    ENZO_FAIL("The subgrid is already too small!");
+  }
+
   /* Initialize */
  
   int i = 0;
