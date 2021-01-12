@@ -1067,6 +1067,8 @@ int ReadParameterFile(FILE *fptr, TopGridData &MetaData, float *Initialdt)
                   &StarFeedbackLoadingType);
     ret += sscanf(line, "StarFeedbackVelocityMax = %"FSYM, 
                   &StarFeedbackVelocityMax);
+    ret += sscanf(line, "StarParticleBetterRefine = %"FSYM, 
+                  &StarParticleBetterRefine);
 
     //  added by HJ
     ret += sscanf(line, "StarFeedbackSmallGridFatalError = %"ISYM,

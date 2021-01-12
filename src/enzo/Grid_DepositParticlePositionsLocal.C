@@ -57,14 +57,11 @@ int grid::DepositParticlePositionsLocal(FLOAT DepositTime, int DepositField,
       MassFactor *= CellWidth[dim][0];
  
   /* If required, Change the mass of particles in this grid. */
- 
-  if (MassFactor != 1.0) {
-    ParticleMassTemp = new float[NumberOfParticles];
-    for (i = 0; i < NumberOfParticles; i++)
-      ParticleMassTemp[i] = ParticleMass[i]*MassFactor;
-    ParticleMassPointer = ParticleMassTemp;
-  } else
-    ParticleMassPointer = ParticleMass;
+
+  ParticleMassTemp = new float[NumberOfParticles];
+  for (i = 0; i < NumberOfParticles; i++)
+    ParticleMassTemp[i] = ParticleMass[i] * MassFactor;
+  ParticleMassPointer = ParticleMassTemp;
 
   /* Allocate and fill the ActiveParticleMassPointer, obtain
      ActiveParticlePosition from the grid object */
@@ -92,7 +89,15 @@ int grid::DepositParticlePositionsLocal(FLOAT DepositTime, int DepositField,
       ActiveParticleMassPointer[i] = min(DepositParticleMaximumParticleMass,
                                          ActiveParticleMassPointer[i]);
   }
- 
+  
+  /* More aggressive refinement on star particle mass; TK*/
+  if(StarParticleBetterRefine > 0){
+     for (i = 0; i < NumberOfParticles; i++){
+       if(ParticleType[i]==PARTICLE_TYPE_STAR)
+          ParticleMassPointer[i] *= StarParticleBetterRefine;
+     }
+  }
+  
   /* Compute difference between current time and DepositTime. */
  
   float TimeDifference = DepositTime - Time;
@@ -151,8 +156,7 @@ int grid::DepositParticlePositionsLocal(FLOAT DepositTime, int DepositField,
  
   /* If necessary, delete the particle mass temporary. */
  
-  if (MassFactor != 1.0)
-    delete [] ParticleMassTemp;
+  delete [] ParticleMassTemp;
 
   if (BothFlags) {
     delete [] FlaggingField;

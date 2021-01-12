@@ -616,6 +616,7 @@ int SetDefaultGlobalValues(TopGridData &MetaData)
   StarFeedbackVerbose              = FALSE;
   StarFeedbackLoadingType          = 0;
   StarFeedbackVelocityMax          = 1e4;   // kms
+  StarParticleBetterRefine         = -1.0;
 
   // added by HJ
   StarFeedbackSmallGridFatalError  = TRUE;

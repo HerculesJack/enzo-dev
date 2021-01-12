@@ -1041,9 +1041,11 @@ int WriteParameterFile(FILE *fptr, TopGridData &MetaData, char *name = NULL)
           StarFeedbackLoadingType);
   fprintf(fptr, "StarFeedbackVelocityMax               = %"GSYM"\n",
           StarFeedbackVelocityMax);
+  fprintf(fptr, "StarParticleBetterRefine              = %"GSYM"\n\n",
+          StarParticleBetterRefine);
 
   // added by HJ
-  fprintf(fptr, "StarFeedbackSmallGridFatalError       = %"ISYM"\n",
+  fprintf(fptr, "StarFeedbackSmallGridFatalError       = %"ISYM"\n\n",
           StarFeedbackSmallGridFatalError);
 
   fprintf(fptr, "MBHAccretion                          = %"ISYM"\n", MBHAccretion);
